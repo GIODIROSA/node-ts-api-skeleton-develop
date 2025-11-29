@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "es2021",
+    "module": "node16",
+    "rootDir": "src",
+    "outDir": "dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node16",
+    "baseUrl": "src",
+    "paths": {
+      "@config/*": ["config/*"],
+      "@errors/*": ["errors/*"],
+      "@utils/*": ["v1/utils/*"],
+      "@services/*": ["v1/services/*"],
+      "@controllers/*": ["v1/controllers/*"],
+      "@middlewares/*": ["middlewares/*"],
+      "@validators/*": ["v1/validators/*"],
+      "@libs/*": ["v1/libs/*"],
+      "@routes/*": ["v1/routes/*"],
+      "@interfaces/*": ["v1/interfaces/*"],
+      "@constants/*": ["v1/constants/*"]
+    }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}

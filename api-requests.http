@@ -1,0 +1,212 @@
+###############################################################################
+# API REST Client - Node.js TypeScript API Skeleton
+# 
+# Este archivo contiene ejemplos de requests para probar la API.
+# Usa la extensión REST Client de VS Code para ejecutar estos requests.
+# 
+# Instalación: https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+# 
+# Uso: Haz clic en "Send Request" que aparece sobre cada request
+###############################################################################
+
+# Variables de entorno
+@baseUrl = http://localhost:3000
+@apiPath = /api/skeleton
+@contentType = application/json
+
+# IDs de ejemplo (reemplazar con IDs reales de tu BD)
+@userId = d5751cb8-eea8-420c-b6f7-c3452b5026ee
+@userEmail = admin@example.com
+
+###############################################################################
+# HEALTH CHECK
+###############################################################################
+
+### Health Check - Verificar estado del servidor
+GET {{baseUrl}}/health HTTP/1.1
+
+###############################################################################
+# USERS - CREATE
+###############################################################################
+
+### Crear un nuevo usuario
+POST {{baseUrl}}{{apiPath}}/users HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "email": "newuser@example.com",
+  "name": "Nuevo Usuario"
+}
+
+### Crear usuario con datos mínimos
+POST {{baseUrl}}{{apiPath}}/users HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "email": "minimal@example.com",
+  "name": "Usuario Mínimo"
+}
+
+### Crear usuario - Error: Email duplicado (409)
+POST {{baseUrl}}{{apiPath}}/users HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "email": "admin@example.com",
+  "name": "Admin Duplicado"
+}
+
+### Crear usuario - Error: Email inválido (400)
+POST {{baseUrl}}{{apiPath}}/users HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "email": "email-invalido",
+  "name": "Usuario Test"
+}
+
+### Crear usuario - Error: Nombre vacío (400)
+POST {{baseUrl}}{{apiPath}}/users HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "email": "test@example.com",
+  "name": ""
+}
+
+###############################################################################
+# USERS - READ
+###############################################################################
+
+### Obtener todos los usuarios
+GET {{baseUrl}}{{apiPath}}/users HTTP/1.1
+
+### Obtener usuario por ID
+GET {{baseUrl}}{{apiPath}}/users/{{userId}} HTTP/1.1
+
+### Obtener usuario por ID - Error: ID inválido (400)
+GET {{baseUrl}}{{apiPath}}/users/invalid-uuid HTTP/1.1
+
+### Obtener usuario por ID - Error: No encontrado (404)
+GET {{baseUrl}}{{apiPath}}/users/00000000-0000-0000-0000-000000000000 HTTP/1.1
+
+### Obtener usuario por email
+GET {{baseUrl}}{{apiPath}}/users/email/{{userEmail}} HTTP/1.1
+
+### Obtener usuario por email - Error: Email inválido (400)
+GET {{baseUrl}}{{apiPath}}/users/email/invalid-email HTTP/1.1
+
+### Obtener usuario por email - Error: No encontrado (404)
+GET {{baseUrl}}{{apiPath}}/users/email/noexiste@example.com HTTP/1.1
+
+###############################################################################
+# USERS - UPDATE
+###############################################################################
+
+### Actualizar usuario - Nombre y email
+PUT {{baseUrl}}{{apiPath}}/users/{{userId}} HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "name": "Admin Actualizado",
+  "email": "admin.updated@example.com"
+}
+
+### Actualizar usuario - Solo nombre
+PUT {{baseUrl}}{{apiPath}}/users/{{userId}} HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "name": "Solo Nombre Actualizado"
+}
+
+### Actualizar usuario - Solo email
+PUT {{baseUrl}}{{apiPath}}/users/{{userId}} HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "email": "solo.email@example.com"
+}
+
+### Actualizar usuario - Error: Email inválido (400)
+PUT {{baseUrl}}{{apiPath}}/users/{{userId}} HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "email": "email-invalido"
+}
+
+### Actualizar usuario - Error: ID inválido (400)
+PUT {{baseUrl}}{{apiPath}}/users/invalid-uuid HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "name": "Test"
+}
+
+### Actualizar usuario - Error: No encontrado (404)
+PUT {{baseUrl}}{{apiPath}}/users/00000000-0000-0000-0000-000000000000 HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "name": "Usuario Inexistente"
+}
+
+###############################################################################
+# USERS - DELETE
+###############################################################################
+
+### Eliminar usuario
+DELETE {{baseUrl}}{{apiPath}}/users/{{userId}} HTTP/1.1
+
+### Eliminar usuario - Error: ID inválido (400)
+DELETE {{baseUrl}}{{apiPath}}/users/invalid-uuid HTTP/1.1
+
+### Eliminar usuario - Error: No encontrado (404)
+DELETE {{baseUrl}}{{apiPath}}/users/00000000-0000-0000-0000-000000000000 HTTP/1.1
+
+###############################################################################
+# EJEMPLOS CON HEADERS PERSONALIZADOS
+###############################################################################
+
+### Request con headers personalizados
+GET {{baseUrl}}{{apiPath}}/users HTTP/1.1
+Accept: application/json
+User-Agent: REST-Client
+X-Custom-Header: custom-value
+
+### Request con autenticación (cuando implementes JWT)
+# GET {{baseUrl}}{{apiPath}}/users HTTP/1.1
+# Authorization: Bearer your-jwt-token-here
+# Content-Type: {{contentType}}
+
+###############################################################################
+# NOTAS DE USO
+###############################################################################
+
+# 1. Variables:
+#    - Usa {{variable}} para referenciar variables definidas arriba
+#    - Puedes crear archivos .env para diferentes ambientes
+#
+# 2. Separadores:
+#    - Usa ### para separar requests
+#
+# 3. Comentarios:
+#    - Usa # para comentarios de una línea
+#
+# 4. Ejecutar:
+#    - Haz clic en "Send Request" sobre cada request
+#    - O usa Ctrl+Alt+R (Windows/Linux) o Cmd+Alt+R (Mac)
+#
+# 5. Ver respuestas:
+#    - Las respuestas se muestran en una pestaña nueva
+#    - Incluyen status code, headers y body
+#
+# 6. Guardar respuestas:
+#    - Haz clic derecho en la respuesta > "Save Response"
+#
+# 7. Historial:
+#    - REST Client guarda un historial de requests
+#    - Accede con Ctrl+Alt+H (Windows/Linux) o Cmd+Alt+H (Mac)
+
+###############################################################################

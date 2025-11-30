@@ -17,8 +17,10 @@ import { ENV } from '@config/constants';
 import { Router } from 'express';
 import healthRoutes from './health.routes';
 import userRoutes from './user.routes';
+import productRoutes from './product.routes';
 
 import Logger from '@config/logger';
+import path from 'path';
 
 const { API_PATH } = ENV;
 
@@ -70,7 +72,12 @@ export const routes = [
     path: `${base}/users`,
     router: userRoutes,
   },
+  {
+    path: `${base}/products`,
+    router: productRoutes,
+  }
 ];
+
 
 /**
  * Registra todas las rutas en la aplicación Express
@@ -96,6 +103,8 @@ export const routes = [
  * - Cada router puede tener sus propios middlewares específicos
  * - Los prefijos se concatenan (ej: app base + route path)
  */
+
+
 export const registerRoutes = (app: Router): void => {
   routes.forEach((route) => {
     app.use(route.path, route.router);

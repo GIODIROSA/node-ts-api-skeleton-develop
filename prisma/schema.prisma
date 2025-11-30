@@ -1,5 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// prisma/schema.prisma
 
 generator client {
   provider = "prisma-client-js"
@@ -10,13 +10,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Example model - replace with your actual schema
-model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("users")
+// Modelo para el Caso 1: Gestión de Inventario
+model Product {
+  id          Int      @id @default(autoincrement())
+  nombre      String   // Requerido
+  descripcion String?  // Opcional
+  precio      Decimal  @db.Decimal(10, 2)
+  stock       Int      // Se validará en el servicio que sea positivo
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

@@ -17,7 +17,7 @@ import { ENV } from '@config/constants';
 import { Router } from 'express';
 import healthRoutes from './health.routes';
 import userRoutes from './user.routes';
-import productRoutes from './product.routes';
+import {ProductRoutes} from './product.routes';
 
 import Logger from '@config/logger';
 import path from 'path';
@@ -74,7 +74,7 @@ export const routes = [
   },
   {
     path: `${base}/products`,
-    router: productRoutes,
+    router: ProductRoutes.routes,
   }
 ];
 

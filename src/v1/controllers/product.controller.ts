@@ -2,9 +2,7 @@ import { Request, Response } from "express";
 import { ProductService } from "../services/product.service";
 
 export class ProductController {
-  constructor(
-    private readonly productService: ProductService = new ProductService()
-  ) {}
+  constructor(private readonly productService: ProductService) {}
 
   // -- CREACIÓN (POST)
   public createProduct = (req: Request, res: Response) => {
@@ -21,25 +19,33 @@ export class ProductController {
         const status = error.status || 500;
         res
           .status(status)
-          .json({ message: error.message || "Error interno del servidor." });
+          .json({ error: error.message || "Error interno del servidor." });
       });
   };
 
   // -- LISTADO (GET)
 
   public getProducts = (req: Request, res: Response) => {
-    this.productService
-      .getAllProducts()
-      .then((products) => {
-        res.status(200).json(products);
-      })
-      .catch((error) => {
-        const status = error.status || 500;
-        res
-          .status(status)
-          .json({ message: error.message || "Error interno del servidor." });
-      });
-  };
+    // 1. Extraer Query Params (lo que viene después del ? en la URL)
+    const { page = 1, limit = 10, nombre } = req.query;
 
-  
+    // 2. Convertir a números (vienen como strings)
+    // +page convierte "1" a 1. Si no es número, usa el default.
+    const pageNumber = +page > 0 ? +page : 1;
+    const limitNumber = +limit > 0 ? +limit : 10;
+
+    // 3. Llamar al servicio con los filtros
+    this.productService
+      .getProducts({
+        page: pageNumber,
+        limit: limitNumber,
+        nombre: nombre as string, // Puede ser undefined
+      })
+      .then((products) => res.json(products))
+      .catch((error) =>
+        res
+          .status(500)
+          .json({ error: error.message || "Error al obtener productos" })
+      );
+  };
 }

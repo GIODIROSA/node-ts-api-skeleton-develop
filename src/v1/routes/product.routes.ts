@@ -1,21 +1,20 @@
-// src/routes/product.routes.ts
-import { Router } from "express";
-import { ProductController } from "../controllers/product.controller"; // Ajusta la ruta si es necesario
-import { ProductService } from "../services/product.service"; // Ajusta la ruta si es necesario
+import { Router } from 'express';
+import { ProductController } from '@controllers/product.controller';
+import { ProductService } from '@services/product.service';
+import prisma from '@config/db/prisma';
 
-const router = Router();
+export class ProductRoutes {
 
-// 1. Instanciamos las dependencias
-const productService = new ProductService();
-const productController = new ProductController(productService);
+  static get routes(): Router {
+    const router = Router();
 
-// 2. Definimos las rutas
-// Nota: Aquí solo ponemos '/' porque el prefijo '/api/productos' lo pondremos en el index
+    const productService = new ProductService(prisma);
 
-// POST /api/productos - Crear 
-router.post("/", productController.createProduct);
+    const productController = new ProductController(productService);
 
-// GET /api/productos - Listar 
-router.get("/", productController.getProducts);
+    router.post('/', productController.createProduct);
+    router.get('/', productController.getProducts);
 
-export default router;
+    return router;
+  }
+}

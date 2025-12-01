@@ -41,7 +41,7 @@
     "@libs": "dist/v1/libs"
   },
   "keywords": [],
-  "author": "",
+  "author": "Giovanni Di Rosa",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {

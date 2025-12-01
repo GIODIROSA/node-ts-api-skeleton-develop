@@ -13,7 +13,11 @@ export class ProductRoutes {
     const productController = new ProductController(productService);
 
     router.post('/', productController.createProduct);
+
+     router.post('/bulk', productController.createMultiple);
+
     router.get('/', productController.getProducts);
+
 
     return router;
   }

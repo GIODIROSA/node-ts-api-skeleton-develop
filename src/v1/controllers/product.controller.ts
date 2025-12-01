@@ -23,6 +23,20 @@ export class ProductController {
       });
   };
 
+  // -- CREACIÓN MÚLTIPLE (POST / BULK)
+  public createMultiple = (req: Request, res: Response) => {
+    // Esperamos un array de product
+    const products = req.body;
+
+    this.productService
+      .createMultipleProducts(products)
+      .then((result) => res.status(201).json(result))
+      .catch((error) => {
+        const status = error.status || 500;
+        res.status(status).json({ error: error.message });
+      });
+  };
+
   // -- LISTADO (GET)
 
   public getProducts = (req: Request, res: Response) => {
